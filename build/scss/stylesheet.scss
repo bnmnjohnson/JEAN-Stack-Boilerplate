@@ -1,0 +1,83 @@
+
+
+/* =======================================================
+	IMPORTS - BYO sass
+======================================================= */
+
+@import './partials/reset';
+@import './partials/fonts';
+@import './partials/colors';
+
+
+/* =======================================================
+	GLOBAL STYLES
+======================================================= */
+
+.global-content-container {
+	margin: 20px;
+}
+
+.ng-view {
+	min-height: 300px;
+}
+
+nav {
+	padding: 10px;
+	margin-bottom: 20px;
+	& a {
+		color: $mid-grey;
+		text-decoration: none;
+		margin-right: 15px;
+		&:hover {
+			color: $bright-blue;
+			border-bottom: 2px solid $bright-blue;
+		}
+	}
+}
+
+h1 {
+	font:{
+		family: $title-font;
+	}
+}
+
+footer {
+	margin-top: 40px;
+}
+
+/* =======================================================
+	BREAKPOINTS
+======================================================= */
+
+@media screen and (max-width: 1024px){
+	//styles for laptop/tablet landscape
+
+}
+
+@media screen and (max-width: 768px){
+	//styles for iPad/tablet portrait
+
+}
+
+@media screen and (max-width: 540px){
+	//styles for large phone
+
+}
+
+@media screen and (max-width: 480px){
+	//styles for medium phone
+
+}
+
+@media screen and (max-width: 320px){
+	//styles for small phone
+
+}
+
+@media screen and (max-width: 250px){
+	//styles for rediculously small phone
+
+}
+
+//=======================================================
+

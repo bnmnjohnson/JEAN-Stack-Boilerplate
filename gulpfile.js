@@ -1,10 +1,11 @@
 var gulp = require('gulp');
-var browserSync = require ('browser-sync');
 var bower = require ('gulp-bower');
 var sass = require ('gulp-sass');
+var notify = require ('gulp-notify');
+var browserSync = require ('browser-sync');
 var modRewrite  = require('connect-modrewrite');
 var middleware = require('middleware');
-var templateCache = require('gulp-angular-templatecache');
+
 
 gulp.task('views', function(){
 	gulp.src('./build/views/**/*.html')
@@ -28,8 +29,15 @@ gulp.task('scripts', ['img'], function(){
 
 gulp.task('build', ['scripts'], function(){
 	gulp.src('./build/scss/*scss')
-		.pipe(sass())
-		.pipe(gulp.dest('./public/src/css/'));
+		.pipe(sass({
+	        style: 'compressed',
+	        errLogToConsole: false,
+	        onError: function(err) {
+	            return notify().write(err);
+	        }
+	    }))
+		.pipe(gulp.dest('./public/src/css/'))
+		.pipe(notify("Success!"));
 });
 
 
@@ -43,7 +51,11 @@ gulp.task('bower', function(){
 //watch these files and run the build if they update
 gulp.task('watch', function(){
     gulp.watch(
-        ['./build/html/*.html', './build/js/*.js', './build/scss/*.scss','./build/views/*.html','./bower_components'],
+        ['./build/html/*.html',
+        './build/js/*.js',
+        './build/scss/**/*.scss',
+        './build/views/*.html',
+        './bower_components'],
         ['build']
     )
 });
@@ -73,31 +85,4 @@ gulp.task('serve', function () {
 });
 
 gulp.task('default', ['build', 'bower', 'watch', 'serve']);
-
-
-
-// // watch these files and update browser when they change
-// gulp.task('sync', function(){
-// 	var files = [
-// 		'app/**/*.html',
-// 		'app/src/js*.js',
-// 		'app/src/**/*.js',
-// 		'app/src/css/*.css',
-// 		'app/src/templates*.html'
-// 	];
-
-// 	browserSync.init(files, {
-// 		server:{
-// 			baseDir: './app'
-// 		}
-// 	});
-// });
-
-// gulp.task('browser-sync', function() {
-//     browserSync({
-//         server: {
-//             baseDir: "./app/"
-//         }
-//     });
-// });
 
