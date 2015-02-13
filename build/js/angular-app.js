@@ -22,6 +22,16 @@ app.config(['$routeProvider', '$locationProvider',
         controller: 'main-controller'
       })
 
+      .when('/view3/:id', {
+        templateUrl: 'view3.html',
+        controller: 'view3-controller'
+      })
+
+      .when('/view3', {
+        templateUrl: 'view3.html',
+        controller: 'view3-controller'
+      })
+
       .otherwise({
       	redirectTo: '/#'
       });
@@ -32,8 +42,16 @@ app.config(['$routeProvider', '$locationProvider',
 //The main controller
 app.controller('main-controller', function($scope){
 	$scope.angularTest = "Angular is working correctly!";
-
-
+  $scope.angularWorking = {'font-size': '40px'};
+  $scope.searchText = "the searchText";
+  
+  $scope.changeSearch = function(text){
+     $scope.searchText = text;
+  }
 
 
 });
+
+app.controller('view3-controller', function($scope, $routeParams){
+  $scope.routeId = $routeParams.id;
+})

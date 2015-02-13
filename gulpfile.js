@@ -3,6 +3,7 @@ var bower = require ('gulp-bower');
 var sass = require ('gulp-sass');
 var notify = require ('gulp-notify');
 var templateCache = require ('gulp-angular-templatecache')
+var del = require ('del');
 var browserSync = require ('browser-sync');
 var modRewrite  = require('connect-modrewrite');
 var middleware = require('middleware');
@@ -37,6 +38,7 @@ gulp.task('scripts', ['assets'], function(){
 		gulp.src('./build/js/temp/templateCache.js')
 		)
 		.pipe(gulp.dest('./public/src/js/'));
+		//.pipe(del('./build/js/temp')) //DANGEROUS can delete whole app if not used correctly
 });
 
 //compile SASS and then move it to public/css
