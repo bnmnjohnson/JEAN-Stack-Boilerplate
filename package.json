@@ -16,10 +16,7 @@
   "author": "Michael Parker",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.11.0",
     "express": "^4.11.2",
-    "method-override": "^2.3.1",
-    "middleware": "^1.0.0",
     "path": "^0.11.14"
   },
   "devDependencies": {

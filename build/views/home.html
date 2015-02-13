@@ -1,27 +1,31 @@
-<h1> Welcome to the home view </h1>
+<h1> Welcome to JEAN</h1>
+<p>Jean combines jquery, express, angular and node to automate and compile simple web projects.</p>
+<p>It comes with ng-animate, ng-route, $templatecache, and sass setup with gulp used to automate and compile.</p>
 <hr/>
+
+<h2>Routes</h2>
+<p>Angular uses templates to dynamically load in content pages. In JEAN, angular has been setup to use the $templateCache so your views will load instantaniously.</p> <br/>
 
 <h3>Home</h3>
 <p>This is the home view, it uses the main controller. It is accessed at / or /#/.</p>
-<p>{{angularTest}}</p>
 <br/>
 
-<h3>View 1 &amp; 2</h3>
+<h3>Views 1 &amp; 2</h3>
 <p>The first and second views share the same controller as home. Their routes are /#/view1 and /#/view2.</p>
 <br/>
 
 <h3>View 3 &amp; 3/id</h3>
-<p>The Third route can also take an argument called id. To specify the id, just add it to the normal route of /#/3/</p>
+<p>The third route can also take an argument called id. To specify the id, just add it to the normal route of /#/3/</p>
 <br/>
 <p>Try it, enter an ID like your name and hit go:</p>
 <p><input type="text" ng-model="view3id"> <a ng-href="#/view3/{{view3id}}"> GO</a></p>
 <br/>
 
-<h3>Add more</h3>
-<p>Add as many views as you need. Just create a new .html file in /views and create a route in angular.</p>
+<h4>+ Add more</h4>
+<p>Add as many views as you need. Just create a new .html file in /views and define a route in angular.</p>
 
 <hr/>
-<h1>Styling the app</h1>
+<h2>Styling the app</h2>
 <p> There is a stylesheet.scss and three partial files set up with limitted styles pre-defined. Add a css framework or define your own styles to get the site looking snazzy.</p>
 
 
