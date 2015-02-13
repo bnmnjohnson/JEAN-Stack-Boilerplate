@@ -46,9 +46,7 @@ Gulp-sass requires node v0.10.33, check you have the right version using:
 # Angular HTML5 mode - True or False?
 Angular-route has an option to use html5 mode which removes the `#` from the url. Whilst this makes for a cleaner URL, it can cause semantic issues with routing traffic using direct urls (such as search engines) on certain servers.
 
-In non-HTML5 mode going to `http://myapp.com` would take you to `/index.html`
-In non-HTML5 mode going to `http://myapp.com/#/contact` would take you to `/index.html' with a query of `?contact`
-In non-HTML5 mode going to `http://myapp.com/contact` would take you to `/contact/index.html`
+In non-HTML5 mode going to `http://myapp.com` would take you to `/index.html`, going to `http://myapp.com/#/contact` would take you to `/index.html` with a query of `?contact` and going to `http://myapp.com/contact` would take you to `/contact/index.html`.
 
 With HTML5 mode turned on Angular will change `http://myapp.com/#/contact` to `http://myapp.com/contact` but it's cosmetic: Angular is still loading `/index.html' with a query of `?contact`. The problem here is when the page is refreshed, or loaded using a direct URL the server will route the traffic to `/contact/index.html` and skip the Angular application all together. Lucky for us this boilerplate comes node + express set up to route traffic through our application with HTML5 mode. This comes down to a personal preference and dependant on how the site will be deployed.
 
