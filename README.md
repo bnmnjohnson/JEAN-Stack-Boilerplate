@@ -6,7 +6,6 @@ This stack is for the humble web design/developer who wants to use the magic of 
 1. Clone the repository and `cd` into the directory
 2. Install npm (node) modules: 
 	`npm install`
-
 3. Install bower dependencies 
 	`bower install`
 
@@ -46,17 +45,20 @@ Gulp-sass requires node v0.10.33, check you have the right version using:
 # Angular HTML5 mode - True or False?
 Angular-route has an option to use html5 mode which removes the `#` from the url. Whilst this makes for a cleaner URL, it can cause semantic issues with routing traffic using direct urls (such as search engines) on certain servers.
 
-In non-HTML5 mode going to `http://myapp.com` would take you to `/index.html`, going to `http://myapp.com/#/contact` would take you to `/index.html` with a query of `?contact` and going to `http://myapp.com/contact` would take you to `/contact/index.html`.
+In non-HTML5 mode going to `http://myapp.com` would take you to `/index.html`, going to `http://myapp.com/#/contact` would take you to `/index.html` with a query of `contact` and going to `http://myapp.com/contact` would take you to `/contact/index.html`.
 
-With HTML5 mode turned on Angular will change `http://myapp.com/#/contact` to `http://myapp.com/contact` but it's cosmetic: Angular is still loading `/index.html' with a query of `?contact`. The problem here is when the page is refreshed, or loaded using a direct URL the server will route the traffic to `/contact/index.html` and skip the Angular application all together. Lucky for us this boilerplate comes node + express set up to route traffic through our application with HTML5 mode. This comes down to a personal preference and dependant on how the site will be deployed.
+With HTML5 mode turned on Angular will change `http://myapp.com/#/contact` to `http://myapp.com/contact` but it's cosmetic: Angular is still loading `/index.html' with a query of `contact`. The problem here is when the page is refreshed, or loaded using a direct URL the server will route the traffic to `/contact/index.html` and skip the Angular application all together. Lucky for us this boilerplate comes node + express set up to route traffic through our application with HTML5 mode. This comes down to a personal preference and dependant on how the site will be deployed.
 
 ### Deploying with HTML5 - False:
-The default behaviour is set to with html5 mode off. Move the /public folder to a normal Apache web server. Your application will use #/ links to controll views. 
+The default behaviour is set to with html5 mode off. Move the /public folder to a normal Apache web server. Your application will use #/ links to control views. 
 
 ### Deploying with HTML5 - True:
 Easiest option: deploy using a linux server running node
+
 1. Change the config of angular-route `html5mode: true` 
+
 2. Start the node server by executing `node server.js` 
+
 3. You might want to use `forever` to keep the server running, well forever. 
 
 Harder option: 
