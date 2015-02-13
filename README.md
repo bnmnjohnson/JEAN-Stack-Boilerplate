@@ -47,7 +47,7 @@ Angular-route has an option to use html5 mode which removes the `#` from the url
 
 In non-HTML5 mode going to `http://myapp.com` would take you to `/index.html`, going to `http://myapp.com/#/contact` would take you to `/index.html` with a query of `contact` and going to `http://myapp.com/contact` would take you to `/contact/index.html`.
 
-With HTML5 mode turned on Angular will change `http://myapp.com/#/contact` to `http://myapp.com/contact` but it's cosmetic: Angular is still loading `/index.html' with a query of `contact`. The problem here is when the page is refreshed, or loaded using a direct URL the server will route the traffic to `/contact/index.html` and skip the Angular application all together. Lucky for us this boilerplate comes node + express set up to route traffic through our application with HTML5 mode. This comes down to a personal preference and dependant on how the site will be deployed.
+With HTML5 mode turned on Angular will change `http://myapp.com/#/contact` to `http://myapp.com/contact` but it's cosmetic: Angular is still loading `/index.html` with a query of `contact`. The problem here is when the page is refreshed, or loaded using a direct URL the server will route the traffic to `/contact/index.html` and skip the Angular application all together. Lucky for us this boilerplate comes node + express set up to route traffic through our application with HTML5 mode. This comes down to a personal preference and dependant on how the site will be deployed.
 
 ### Deploying with HTML5 - False:
 The default behaviour is set to with html5 mode off. Move the /public folder to a normal Apache web server. Your application will use #/ links to control views. 
