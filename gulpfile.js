@@ -1,89 +1,136 @@
 var gulp = require('gulp');
+var browserSync = require ('browser-sync');
 var bower = require ('gulp-bower');
 var sass = require ('gulp-sass');
-var notify = require ('gulp-notify');
-var templateCache = require ('gulp-angular-templatecache')
-var del = require ('del');
-var browserSync = require ('browser-sync');
 var modRewrite  = require('connect-modrewrite');
 var middleware = require('middleware');
-var streamqueue = require('streamqueue');
 
-//Compile views into an angular $templateCache module
-//Move them to a temp folder, we'll add them to public later
-gulp.task('views', function(){
- return streamqueue({ objectMode: true },
-    gulp.src('./build/views/**/*.html')
-    )
-        .pipe(templateCache('./temp/templateCache.js', { module: 'templatescache', standalone: true }))
-        .pipe(gulp.dest('./build/js/'));
+
+
+//===================================================================
+
+//move assets folder to public/src/files/
+gulp.task('assets', function(){
+	gulp.src('./_ar-build/assets/**/*')
+	.pipe(gulp.dest('./public/src/assets/'));
 });
 
-//Move files in html to public/
-gulp.task('home', ['views'], function(){
-	gulp.src('./build/html/*.html')
+//move files folder to public/src/files/
+gulp.task('files',['assets'], function(){
+	gulp.src('./_ar-build/files/**/*')
+	.pipe(gulp.dest('./public/src/files/'));
+});
+
+//move views to public/src/views/
+gulp.task('views', ['files'], function(){
+	gulp.src('./_ar-build/views/**')
+	.pipe(gulp.dest('./public/src/views/'));
+});
+
+//move .html files to public/
+gulp.task('html', ['views'], function(){
+	gulp.src('./_ar-build/html/*.html')
 		.pipe(gulp.dest('./public/'));
 });
 
-//move everything in the assets folder to public/assets
-gulp.task('assets', ['home'], function(){
-	gulp.src('./build/assets/**')
-		.pipe(gulp.dest('./public/src/assets/'));
+//move img folder contents to public/src/img/
+gulp.task('img', ['html'], function(){
+	gulp.src('./_ar-build/img/**')
+		.pipe(gulp.dest('./public/src/img'));
 });
 
-//move both the templatecache service and angular app to public/js
-gulp.task('scripts', ['assets'], function(){
-	return streamqueue({ objectMode: true },
-		gulp.src('./build/js/angular-app.js'),
-		gulp.src('./build/js/temp/templateCache.js')
-		)
+//move .js files from to public/src/js/
+gulp.task('scripts', ['img'], function(){
+	gulp.src('./_ar-build/js/**/*.js')
 		.pipe(gulp.dest('./public/src/js/'));
-		//.pipe(del('./build/js/temp')) //DANGEROUS can delete whole app if not used correctly
 });
 
-//compile SASS and then move it to public/css
-//Notify when build is complete
-gulp.task('build', ['scripts'], function(){
-	gulp.src('./build/scss/*scss')
-		.pipe(sass({
-	        style: 'compressed',
-	        errLogToConsole: false,
-	        onError: function(err) {
-	            return notify().write(err);
-	        }
-	    }))
-		.pipe(gulp.dest('./public/src/css/'))
-		.pipe(notify("Build - Success!"));
+//compile .sass files then move the .css to /public/src/css/
+gulp.task('build-ar', ['scripts'], function(){
+	gulp.src('./_ar-build/scss/*.scss')
+		.pipe(sass())
+		.pipe(gulp.dest('./public/src/css/'));
 });
 
-//move bower components to the library folder
+//===================================================================
+
+//STYLEGUIDE BUILD
+//move assets folder to public/src/files/
+gulp.task('assets-st', function(){
+	gulp.src('./_st-build/assets/**/*')
+	.pipe(gulp.dest('./public/styleguide/src/assets/'));
+});
+
+//move files folder to public/src/files/
+gulp.task('files-st',['assets-st'], function(){
+	gulp.src('./_st-build/files/**/*')
+	.pipe(gulp.dest('./public/styleguide/src/files/'));
+});
+
+//move views to public/src/views/
+gulp.task('views-st', ['files-st'], function(){
+	gulp.src('./_st-build/views/**')
+	.pipe(gulp.dest('./public/styleguide/src/views/'));
+});
+
+//move .html files to public/
+gulp.task('html-st', ['views-st'], function(){
+	gulp.src('./_st-build/html/*.html')
+		.pipe(gulp.dest('./public/styleguide/'));
+});
+
+//move img folder contents to public/src/img/
+gulp.task('img-st', ['html-st'], function(){
+	gulp.src('./_st-build/img/**')
+		.pipe(gulp.dest('./public/styleguide/src/img'));
+});
+
+//move .js files from to public/src/js/
+gulp.task('scripts-st', ['img-st'], function(){
+	gulp.src('./_st-build/js/**/*.js')
+		.pipe(gulp.dest('./public/styleguide/src/js/'));
+});
+
+//compile .sass files then move the .css to /public/src/css/
+gulp.task('build-st', ['scripts-st'], function(){
+	gulp.src('./_st-build/scss/*.scss')
+		.pipe(sass())
+		.pipe(gulp.dest('./public/styleguide/src/css/'));
+});
+
+
+
+
+//look at the bower components required then move them to the lib folder
 gulp.task('bower', function(){
 	return bower()
 		.pipe(gulp.dest('./public/src/js/lib'));
 });
 
-//watch these files and run the build if they update
+
+//Watch these files for changes and run the build
 gulp.task('watch', function(){
     gulp.watch(
-        ['./build/html/*.html',
-        './build/js/*.js',
-        './build/scss/**/*.scss',
-        './build/views/*.html',
-        './build/assets/**/*',
+        ['./_ar-build/html/*.html', 
+        './_ar-build/js/*.js', 
+        './_ar-build/scss/*.scss',
+        './_ar-build/scss/**/.scss',
+        './_ar-build/img/**', 
+        './_ar-build/views/**', 
         './bower_components'],
-        ['build']
+        ['build-st', 'build-ar']
     )
 });
 
-//Create a local web server using browser-sync
-//Refresh the browser if any files change
+
+//Create a web server using browser sync and refresh if the assets update
+//Middleware added to re-route traffic using HTML5 mode in Angular (ie page/view/id > $routparams.id)
 gulp.task('serve', function () {
 		var files = [
 		'./public/**/*.html',
+		'./public/src/js*.js',
 		'./public/src/**/*.js',
-		'./public/src/assets/**/*',
-		'./public/src/css/*.css',
-		'./public/src/views*.html'
+		'./public/src/css/*.css'
 	];
 
     browserSync.init(files, {
@@ -99,6 +146,7 @@ gulp.task('serve', function () {
 
 });
 
-//default task
-gulp.task('default', ['build', 'bower', 'watch', 'serve']);
+gulp.task('build', ['build-ar', 'build-st']);
 
+//The default task and task dependancies
+gulp.task('default', ['build-ar','build-st', 'bower', 'watch', 'serve']);
