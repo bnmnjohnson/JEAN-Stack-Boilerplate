@@ -1,5 +1,5 @@
 //Define angular app
-var app = angular.module('app', ['templatescache', 'ngRoute', 'ngAnimate'])
+var app = angular.module('app', ['templatescache', 'ngRoute', 'ngAnimate', 'ngTouch', 'wu.masonry'])
 
 //configure application routes, 
 //note: this is using gulp-angular-template-cache so only template names are needed
@@ -42,13 +42,7 @@ app.config(['$routeProvider', '$locationProvider',
 //The main controller
 app.controller('main-controller', function($scope){
 	$scope.angularTest = "Angular is working correctly!";
-  $scope.angularWorking = {'font-size': '40px'};
-  $scope.searchText = "the searchText";
-  
-  $scope.changeSearch = function(text){
-     $scope.searchText = text;
-  }
-
+  $scope.data = data; //import the data.js file into scope
 
 });
 
