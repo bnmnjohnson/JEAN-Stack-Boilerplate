@@ -19,14 +19,15 @@
 }
 
 nav {
-	padding: 10px;
 	margin-bottom: 20px;
+	& a {
+		margin-right: 1.5rem;
+	}
 }
 
 a {
 	color: $mid-grey;
 	text-decoration: none;
-	margin-right: 15px;
 	&:hover {
 		color: $bright-blue;
 		border-bottom: 2px solid $bright-blue;
